@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Entity
 @Data
-@ToString
+@ToString(exclude = "subjects")
 @NoArgsConstructor
 public class Student {
 
@@ -26,47 +26,15 @@ public class Student {
     private String firstName;
     private String lastName;
     private LocalDateTime timeOfCreation;
+    private String pesel;
 
-    public Student(String firstName, String lastName, LocalDateTime timeOfCreation) {
+    public Student(String firstName, String lastName, LocalDateTime timeOfCreation, String pesel) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.timeOfCreation = timeOfCreation;
+        this.pesel=pesel;
     }
-}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-@ToString(exclude = "subjects")
     @JsonIgnore
     @ManyToMany(mappedBy = "enrolledStudents")
     private Set<Subject> subjects = new HashSet<>();
@@ -76,10 +44,11 @@ public class Student {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return Objects.equals(uuid, student.uuid);
+        return Objects.equals(pesel, student.pesel);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid);
-    }*/
+        return Objects.hash(pesel);
+    }
+}

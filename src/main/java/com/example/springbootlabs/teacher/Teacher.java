@@ -6,13 +6,15 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.NaturalId;
+
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Data
-@ToString
+@ToString(exclude = "subjects")
 @NoArgsConstructor
 public class Teacher {
 
@@ -22,53 +24,15 @@ public class Teacher {
     private String firstname;
     private String lastname;
     String uuid = UUID.randomUUID().toString();
-
-    public Teacher(String firstname, String lastname) {
+    @NaturalId
+    private String teacherId;
+    public Teacher(String firstname, String lastname, String teacherId) {
         this.firstname = firstname;
         this.lastname = lastname;
+        this.teacherId=teacherId;
     }
-}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-    @ToString(exclude = "subjects")
-
-    @JsonIgnore
+    //@JsonIgnore
     @OneToMany(mappedBy = "teacher")
     private Set<Subject> subjects;
 
@@ -77,10 +41,11 @@ public class Teacher {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Teacher teacher = (Teacher) o;
-        return Objects.equals(uuid, teacher.uuid);
+        return Objects.equals(teacherId, teacher.teacherId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid);
-    }*/
+        return Objects.hash(teacherId);
+    }
+}

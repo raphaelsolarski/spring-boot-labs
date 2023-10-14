@@ -6,12 +6,14 @@ import com.example.springbootlabs.subject.Subject;
 import com.example.springbootlabs.subject.SubjectRepository;
 import com.example.springbootlabs.teacher.Teacher;
 import com.example.springbootlabs.teacher.TeacherRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 
 @AllArgsConstructor
@@ -23,14 +25,30 @@ public class Config implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Teacher teacher = new Teacher("t_fn1", "t_ln2");
+        initDatabase();
+        accessLazyCollectionOutsideTransaction();
+    }
+
+    @Transactional
+    public void initDatabase() {
+        Teacher teacher = new Teacher("t_fn1", "t_ln2", "teach123");
         teacherRepository.save(teacher);
-        Subject subject = new Subject("Mathematics");
+        Subject subject = new Subject("Mathematics","sub123");
         subjectRepository.save(subject);
         subject.setTeacher(teacher);
-        Student student = new Student("John","Doe",LocalDateTime.now());
+        Student student = new Student("John","Doe",LocalDateTime.now(),"stu123");
         studentRepository.save(student);
         student.getSubjects().add(subject);
         subject.getEnrolledStudents().add(student);
+    }
+
+    public void accessLazyCollectionOutsideTransaction() {
+        Teacher teacher2;
+        try {
+            teacher2 = teacherRepository.findById(1L).orElseThrow();
+            Set<Subject> teacherSet = teacher2.getSubjects();
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+        }
     }
 }
