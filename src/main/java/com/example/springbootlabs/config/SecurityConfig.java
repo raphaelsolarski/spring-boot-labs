@@ -8,22 +8,33 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .anyRequest().authenticated()
+                )
+                .httpBasic(withDefaults());
 
+        return http.build();
     }
 
     @Bean
     public CustomUserDetailsService userDetailsService() {
-
+        return new CustomUserDetailsService();
     }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
-
+        return new BCryptPasswordEncoder();
     }
 }
