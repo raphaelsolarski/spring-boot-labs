@@ -41,7 +41,8 @@ public class ProductService {
     }
 
     public Product addProduct(Product product) {
-        this.products.put(Collections.max(this.products.keySet())+1,new Product(product.getName(),product.getDescription(),product.getPrice()))
+        this.products.put(Collections.max(this.products.keySet())+1,new Product(product.getName(),product.getDescription(),product.getPrice()));
+        return product;
     }
 
     public Product update(Long id, Product product) {
