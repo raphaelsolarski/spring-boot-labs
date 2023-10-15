@@ -1,7 +1,5 @@
 package com.example.springbootlabs.product;
 
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 public class ProductRepository {
