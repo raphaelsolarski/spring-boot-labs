@@ -22,11 +22,14 @@ public class ProductController {
     }
 
     @GetMapping
+    @ResponseBody
     public List<Product> getProducts(){
 
         return productService.getProducts();
     }
+
     @DeleteMapping("/{id}")
+    @ResponseBody
     public Product deleteProduct(@PathVariable Long id){
         if(!productService.exist(id)){
             throw new ResponseStatusException(
@@ -40,13 +43,15 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Product addProduct(@RequestBody Product product){
+    @ResponseBody
+    public Product addProduct(@RequestBody ProductDTO product){
         return productService.addProduct(product);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(path = "/{id}", headers = "Foo=Bar")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Product updateProduct(@RequestBody Product product,@PathVariable Long id) {
+    @ResponseBody
+    public Product updateProduct(@RequestBody ProductDTO product,@PathVariable Long id) {
         if (!productService.exist(id)) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "entity not found"

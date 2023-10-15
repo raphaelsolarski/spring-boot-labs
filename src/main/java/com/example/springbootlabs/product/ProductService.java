@@ -10,7 +10,8 @@ public class ProductService {
 
     private HashMap<Long, Product> products = new HashMap<>();
     public List<Product> getProducts() {
-        return (List)products.values();
+        List<Product> list = new ArrayList<>(products.values());
+        return  list;
     }
 
     public void initializeValues(){
@@ -40,12 +41,13 @@ public class ProductService {
         return product;
     }
 
-    public Product addProduct(Product product) {
-        this.products.put(Collections.max(this.products.keySet())+1,new Product(product.getName(),product.getDescription(),product.getPrice()));
-        return product;
+    public Product addProduct(ProductDTO product) {
+        Product pr = new Product(Collections.max(this.products.keySet())+1,product.getName(),product.getDescription(),product.getPrice());
+        this.products.put(Collections.max(this.products.keySet())+1,pr);
+        return pr;
     }
 
-    public Product update(Long id, Product product) {
+    public Product update(Long id, ProductDTO product) {
         Product productToUpdate = this.products.get(id);
         productToUpdate.setName(product.getName());
         productToUpdate.setDescription(product.getDescription());
