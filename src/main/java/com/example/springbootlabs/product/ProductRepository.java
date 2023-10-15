@@ -1,10 +1,12 @@
 package com.example.springbootlabs.product;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
+@Profile("!test")
 public class ProductRepository {
 
     public List<Product> getProducts() {
