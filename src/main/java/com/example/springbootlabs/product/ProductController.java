@@ -1,7 +1,9 @@
 package com.example.springbootlabs.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -26,6 +28,22 @@ public class ProductController {
     public List<Product> getProducts(){
 
         return productService.getProducts();
+    }
+    @GetMapping("/checkprice")
+    ResponseEntity<String> price(
+            @RequestParam("price") int price) {
+
+        if (price<0) {
+            return new ResponseEntity<>(
+                    "Price cannot be less than 0",
+                    HttpStatus.BAD_REQUEST);
+        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Custom-Header", "foo");
+
+        return new ResponseEntity<>(
+                "Price is good",
+                headers,HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
