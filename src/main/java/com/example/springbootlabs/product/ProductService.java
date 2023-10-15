@@ -7,14 +7,14 @@ import java.util.List;
 @Service
 public class ProductService {
 
-    private final ProductRepository productRepository;
+    private final List<ProductRepository> productRepository;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(List<ProductRepository> productRepository) {
         this.productRepository = productRepository;
     }
 
     public List<Product> getProducts() {
-        return productRepository.getProducts();
+        return productRepository.get(0).getProducts();
     }
 
 }
