@@ -1,7 +1,12 @@
 package com.example.springbootlabs.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Product {
+    //@JsonIgnore
     private Long id;
+    //@JsonProperty("product name")
     private String name;
     private String description;
     private double price;
