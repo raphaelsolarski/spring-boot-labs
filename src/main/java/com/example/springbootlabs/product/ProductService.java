@@ -54,4 +54,12 @@ public class ProductService {
         productToUpdate.setPrice(product.getPrice());
         return productToUpdate;
     }
+
+    public Product getById(Long id) {
+       return  products.get(id);
+    }
+
+    public List<Product> getWithMaxPrice(Double maxPrice) {
+        return  new ArrayList<>(products.values()).stream().filter(product -> product.getPrice()<=maxPrice).toList();
+    }
 }
